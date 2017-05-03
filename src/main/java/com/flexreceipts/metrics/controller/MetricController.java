@@ -1,6 +1,7 @@
 package com.flexreceipts.metrics.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flexreceipts.metrics.controller.error.MetricBadArgumentExeption;
 import com.flexreceipts.metrics.controller.error.MetricIdNotFoundException;
 import com.flexreceipts.metrics.model.Metric;
-import com.flexreceipts.metrics.model.MetricStatistic;
+import com.flexreceipts.metrics.model.Statistic;
 import com.flexreceipts.metrics.service.MetricService;
 
 @RestController
@@ -28,8 +29,8 @@ public class MetricController {
 	private MetricService metricService;
 
 	@RequestMapping(value = "/{id}/statistic", method = RequestMethod.GET)
-	public MetricStatistic getStatistic(@PathVariable Integer id) {
-		MetricStatistic statistic = metricService.getStatistic(id);
+	public List<Statistic> getStatistic(@PathVariable Integer id) {
+		List<Statistic> statistic = metricService.getStatistics(id);
 		if (statistic == null) {
 			throw new MetricIdNotFoundException();
 		}

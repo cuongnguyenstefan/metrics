@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import com.flexreceipts.metrics.util.FLoatComparator;
+import com.flexreceipts.metrics.util.FLoatReverseComparator;
 
 public class Test {
 
 	List<Float> floats = new ArrayList<Float>();
 
 	PriorityQueue<Float> minHeap = new PriorityQueue<Float>();
-	PriorityQueue<Float> maxHeap = new PriorityQueue<Float>(new FLoatComparator());
+	PriorityQueue<Float> maxHeap = new PriorityQueue<Float>(new FLoatReverseComparator());
 	int balance = 0;
 
 	float currentMedian = 0;

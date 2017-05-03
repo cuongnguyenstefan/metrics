@@ -2,7 +2,7 @@ package com.flexreceipts.metrics.util;
 
 import java.util.Comparator;
 
-public class FLoatComparator implements Comparator<Float> {
+public class FLoatReverseComparator implements Comparator<Float> {
 
 	@Override
 	public int compare(Float o1, Float o2) {

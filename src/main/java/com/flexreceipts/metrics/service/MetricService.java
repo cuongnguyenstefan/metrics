@@ -3,8 +3,8 @@ package com.flexreceipts.metrics.service;
 import java.util.List;
 
 import com.flexreceipts.metrics.model.Metric;
-import com.flexreceipts.metrics.model.MetricStatistic;
 import com.flexreceipts.metrics.model.MetricUnit;
+import com.flexreceipts.metrics.model.Statistic;
 
 public interface MetricService {
 	
@@ -12,7 +12,7 @@ public interface MetricService {
 	
 	Metric addValues(int id, List<MetricUnit> values);
 	
-	MetricStatistic getStatistic(int id);
+	List<Statistic> getStatistics(int id);
 	
 	Metric getMetric(int id);
 
