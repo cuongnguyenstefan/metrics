@@ -6,14 +6,12 @@ import com.flexreceipts.metrics.model.Metric;
 import com.flexreceipts.metrics.model.MetricUnit;
 import com.flexreceipts.metrics.model.Statistic;
 
-public interface MetricService {
+public interface StatisticService {
 	
-	Metric create(Metric metric);
+	Statistic create(Metric metric);
 	
-	Metric addValues(int id, List<MetricUnit> values);
+	Statistic addAll(Integer statisticId, List<MetricUnit> metricUnits);
 	
-	Statistic getStatistics(int id);
-	
-	Metric getMetric(int id);
+	Statistic findOne(Integer statisticId);
 
 }

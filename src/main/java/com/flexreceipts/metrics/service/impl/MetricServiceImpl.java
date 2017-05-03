@@ -6,17 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.flexreceipts.metrics.model.Metric;
-import com.flexreceipts.metrics.model.BasicStatistic;
 import com.flexreceipts.metrics.model.MetricUnit;
 import com.flexreceipts.metrics.model.Statistic;
 import com.flexreceipts.metrics.repository.MetricRepository;
 import com.flexreceipts.metrics.service.MetricService;
+import com.flexreceipts.metrics.service.StatisticService;
 
 @Service
 public class MetricServiceImpl implements MetricService {
 
 	@Autowired
 	private MetricRepository metricRepository;
+	
+	@Autowired
+	private StatisticService statisticService;
 
 	@Override
 	public Metric create(Metric metric) {
@@ -24,38 +27,34 @@ public class MetricServiceImpl implements MetricService {
 			return null;
 		}
 
-		Metric m = new Metric();
-		BasicStatistic basicStatistic = new BasicStatistic();
+		Statistic basicStatistic = statisticService.create(metric);
 
-		m.addStatistic(basicStatistic);
-		boolean addMetricUnits = addMetricUnits(m, metric.getMetricUnits());
-		if (!addMetricUnits) {
-			return null;
-		}
+		metric.setStatistics(basicStatistic.getId());
 
-		return metricRepository.save(m);
-	}
-
-	@Override
-	public Metric addValues(int id, List<MetricUnit> values) {
-		Metric metric = metricRepository.findOne(id);
-		if (metric == null) {
-			return null;
-		}
-		boolean addMetricUnits = addMetricUnits(metric, values);
-		if (!addMetricUnits) {
-			return null;
-		}
 		return metricRepository.save(metric);
 	}
 
 	@Override
-	public List<Statistic> getStatistics(int id) {
+	public Metric addValues(int id, List<MetricUnit> values) {
+		if (values == null || values.isEmpty()) {
+			return null;
+		}
 		Metric metric = metricRepository.findOne(id);
 		if (metric == null) {
 			return null;
 		}
-		return metric.getStatistics();
+		statisticService.addAll(metric.getStatistics(), values);
+		metric.getMetricUnits().addAll(values);
+		return metricRepository.save(metric);
+	}
+
+	@Override
+	public Statistic getStatistics(int id) {
+		Metric metric = metricRepository.findOne(id);
+		if (metric == null) {
+			return null;
+		}
+		return statisticService.findOne(metric.getStatistics());
 	}
 
 	@Override
@@ -63,14 +62,5 @@ public class MetricServiceImpl implements MetricService {
 		return metricRepository.findOne(id);
 	}
 
-	private boolean addMetricUnits(Metric metric, List<MetricUnit> metricUnits) {
-		for (MetricUnit mu : metricUnits) {
-			metric.addMetricUnit(mu);
-			for (Statistic statistic : metric.getStatistics()) {
-				statistic.update(mu);
-			}
-		}
-		return true;
-	}
 
 }

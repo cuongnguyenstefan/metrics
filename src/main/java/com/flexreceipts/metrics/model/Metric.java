@@ -1,7 +1,6 @@
 package com.flexreceipts.metrics.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,23 +12,18 @@ public class Metric {
 	private List<MetricUnit> metricUnits;
 
 	@JsonIgnore
-	private List<Statistic> statistics;
+	private Integer statistics;
 
 	public Metric() {
 		this.metricUnits = new ArrayList<MetricUnit>();
-		this.statistics = new ArrayList<Statistic>();
-	}
-
-	public void addMetricUnit(MetricUnit newUnit) {
-		metricUnits.add(newUnit);
-	}
-	
-	public void addStatistic(Statistic statistic) {
-		statistics.add(statistic);
 	}
 
 	public List<MetricUnit> getMetricUnits() {
-		return Collections.unmodifiableList(metricUnits);
+		return metricUnits;
+	}
+
+	public void setMetricUnits(List<MetricUnit> metricUnits) {
+		this.metricUnits = metricUnits;
 	}
 
 	public Integer getId() {
@@ -39,12 +33,12 @@ public class Metric {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public List<Statistic> getStatistics() {
+
+	public Integer getStatistics() {
 		return statistics;
 	}
 
-	public void setStatistics(List<Statistic> statistics) {
+	public void setStatistics(Integer statistics) {
 		this.statistics = statistics;
 	}
 
