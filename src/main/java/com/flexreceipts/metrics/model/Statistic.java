@@ -1,63 +1,29 @@
 package com.flexreceipts.metrics.model;
 
-import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.flexreceipts.metrics.util.FLoatReverseComparator;
+import com.flexreceipts.metrics.statisticobserver.StatisticObserver;
 
 public class Statistic {
 
 	private Integer id;
 
-	private MetricUnit min;
-
-	private MetricUnit max;
-
-	private MetricUnit avg;
-
-	private MetricUnit median;
+	private List<StatisticUnit> statistics;
+	
+	@JsonIgnore
+	private Map<String, StatisticUnit> statisticUnits;
 
 	@JsonIgnore
-	private PriorityQueue<Float> minHeap;
-
-	@JsonIgnore
-	private PriorityQueue<Float> maxHeap;
+	private List<StatisticObserver> statisticObservers;
 
 	public Statistic() {
-		this.minHeap = new PriorityQueue<Float>();
-		this.maxHeap = new PriorityQueue<Float>(new FLoatReverseComparator());
-	}
-
-	public MetricUnit getMin() {
-		return min;
-	}
-
-	public void setMin(MetricUnit min) {
-		this.min = min;
-	}
-
-	public MetricUnit getMax() {
-		return max;
-	}
-
-	public void setMax(MetricUnit max) {
-		this.max = max;
-	}
-
-	public MetricUnit getAvg() {
-		return avg;
-	}
-
-	public void setAvg(MetricUnit avg) {
-		this.avg = avg;
-	}
-
-	public MetricUnit getMedian() {
-		return median;
-	}
-
-	public void setMedian(MetricUnit median) {
-		this.median = median;
+		statisticUnits = new HashMap<String, StatisticUnit>();
+		statisticObservers = new ArrayList<StatisticObserver>();
 	}
 
 	public Integer getId() {
@@ -68,20 +34,46 @@ public class Statistic {
 		this.id = id;
 	}
 
-	public PriorityQueue<Float> getMinHeap() {
-		return minHeap;
+	public Map<String, StatisticUnit> getStatisticUnits() {
+		return statisticUnits;
 	}
 
-	public void setMinHeap(PriorityQueue<Float> minHeap) {
-		this.minHeap = minHeap;
+	public List<StatisticObserver> getStatisticObservers() {
+		return statisticObservers;
 	}
 
-	public PriorityQueue<Float> getMaxHeap() {
-		return maxHeap;
+	public void setStatisticObservers(List<StatisticObserver> statisticObservers) {
+		this.statisticObservers = statisticObservers;
+	}
+	
+	public List<StatisticUnit> getStatistics() {
+		return statistics;
 	}
 
-	public void setMaxHeap(PriorityQueue<Float> maxHeap) {
-		this.maxHeap = maxHeap;
+	public void setStatistics(List<StatisticUnit> statistics) {
+		this.statistics = statistics;
+	}
+
+	public void attach(StatisticObserver statisticObserver) {
+		this.statisticObservers.add(statisticObserver);
+	}
+
+	public void unattach(String observerName) {
+		Iterator<StatisticObserver> iterator = this.statisticObservers.iterator();
+		
+		while (iterator.hasNext()) {
+			StatisticObserver observer = iterator.next();
+			if (observer.getName().equals(observerName)) {
+				iterator.remove();
+				break;
+			}
+		}
+	}
+	
+	public void notify(Metric metric) {
+		for (StatisticObserver observer : statisticObservers) {
+			observer.calculate(this, metric);
+		}
 	}
 
 }

@@ -20,18 +20,18 @@ import com.flexreceipts.metrics.controller.error.MetricBadArgumentExeption;
 import com.flexreceipts.metrics.controller.error.MetricIdNotFoundException;
 import com.flexreceipts.metrics.model.Metric;
 import com.flexreceipts.metrics.model.Statistic;
-import com.flexreceipts.metrics.service.MetricService;
+import com.flexreceipts.metrics.service.FacadeMetricService;
 
 @RestController
 @RequestMapping("/metrics")
 public class MetricController {
 
 	@Autowired
-	private MetricService metricService;
+	private FacadeMetricService facadeMetricService;
 
-	@RequestMapping(value = "/{id}/statistic", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/statistics", method = RequestMethod.GET)
 	public Statistic getStatistic(@PathVariable Integer id) {
-		Statistic statistic = metricService.getStatistics(id);
+		Statistic statistic = facadeMetricService.getStatistics(id);
 		if (statistic == null) {
 			throw new MetricIdNotFoundException();
 		}
@@ -40,7 +40,7 @@ public class MetricController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Metric getMetric(@PathVariable Integer id) {
-		Metric metric = metricService.getMetric(id);
+		Metric metric = facadeMetricService.getMetric(id);
 		if (metric == null) {
 			throw new MetricIdNotFoundException();
 		}
@@ -49,7 +49,7 @@ public class MetricController {
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<?> createMetric(@RequestBody Metric metric) {
-		Metric create = metricService.create(metric);
+		Metric create = facadeMetricService.create(metric);
 		if (create == null) {
 			throw new MetricBadArgumentExeption();
 		}
@@ -61,7 +61,7 @@ public class MetricController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
 	public ResponseEntity<?> addMoreValues(@RequestBody Metric update, @PathVariable Integer id) {
-		Metric addValues = metricService.addValues(id, update.getMetricUnits());
+		Metric addValues = facadeMetricService.addValues(id, update);
 		if (addValues == null) {
 			throw new MetricIdNotFoundException();
 		}

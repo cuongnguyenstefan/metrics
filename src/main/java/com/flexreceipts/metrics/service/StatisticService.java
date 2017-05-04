@@ -1,16 +1,12 @@
 package com.flexreceipts.metrics.service;
 
-import java.util.List;
-
-import com.flexreceipts.metrics.model.Metric;
-import com.flexreceipts.metrics.model.MetricUnit;
 import com.flexreceipts.metrics.model.Statistic;
 
 public interface StatisticService {
 	
-	Statistic create(Metric metric);
+	Statistic create();
 	
-	Statistic addAll(Integer statisticId, List<MetricUnit> metricUnits);
+	Statistic save(Statistic statistic);
 	
 	Statistic findOne(Integer statisticId);
 

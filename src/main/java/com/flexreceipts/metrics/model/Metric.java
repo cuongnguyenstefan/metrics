@@ -9,6 +9,10 @@ public class Metric {
 
 	private Integer id;
 
+	private String name;
+
+	private String description;
+
 	private List<MetricUnit> metricUnits;
 
 	@JsonIgnore
@@ -40,6 +44,22 @@ public class Metric {
 
 	public void setStatistics(Integer statistics) {
 		this.statistics = statistics;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
