@@ -16,7 +16,7 @@ Requirement:
 Install:
 	- To install node-rest-client:
 		On the current directory, run
-		node install node-rest-client
+		npm install node-rest-client
 
 Run:
 	On current directory, run
