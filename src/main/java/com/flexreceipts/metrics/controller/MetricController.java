@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,7 +88,7 @@ public class MetricController {
 	 * @param id id of the adding metric
 	 * @return ok if success
 	 */
-	@RequestMapping(value = "/{id}/units", method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/metricUnits", method = RequestMethod.POST)
 	public ResponseEntity<?> addMoreValues(@RequestBody List<MetricUnit> update, @PathVariable Integer id) {
 		Metric addValues = facadeMetricService.addValues(id, update);
 		if (addValues == null) {
@@ -111,13 +112,15 @@ public class MetricController {
 		}
 		return statistic;
 	}
-
+	
 	/**
-	 * When a request throws a MetricIdNotFoundException, the function will be called
-	 * to return BAD_REQUEST error with message
+	 * When a request throws a MetricIdNotFoundException, the function will be
+	 * called to return BAD_REQUEST error with message
 	 * 
-	 * @param response HttpServletResponse
-	 * @throws IOException IOException
+	 * @param response
+	 *            HttpServletResponse
+	 * @throws IOException
+	 *             IOException
 	 */
 	@ExceptionHandler(MetricIdNotFoundException.class)
 	void handleBadRequests(HttpServletResponse response) throws IOException {
@@ -125,14 +128,28 @@ public class MetricController {
 	}
 
 	/**
-	 * When a request throws a MetricBadArgumentExeption, the function will be called
-	 * to return BAD_REQUEST error with message
+	 * When a request throws a MetricBadArgumentExeption, the function will be
+	 * called to return BAD_REQUEST error with message
 	 * 
-	 * @param response HttpServletResponse
-	 * @throws IOException IOException
+	 * @param response
+	 *            HttpServletResponse
+	 * @throws IOException
+	 *             IOException
 	 */
 	@ExceptionHandler(MetricBadArgumentExeption.class)
 	void handleBadArgument(HttpServletResponse response) throws IOException {
 		response.sendError(HttpStatus.BAD_REQUEST.value(), "Invalid Argument for Metric");
 	}
+
+	/**
+	 * When user send a bad request
+	 * 
+	 * @param response
+	 * @throws IOException
+	 */
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	void handleNotReadableException(HttpServletResponse response) throws IOException {
+		response.sendError(HttpStatus.BAD_REQUEST.value(), "Invalid Argument");
+	}
+
 }

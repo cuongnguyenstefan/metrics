@@ -1,1 +1,0 @@
-java -jar metrics-0.0.1-SNAPSHOT.jar
