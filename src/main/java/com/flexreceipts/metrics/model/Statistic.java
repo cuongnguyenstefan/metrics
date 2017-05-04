@@ -9,18 +9,42 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.flexreceipts.metrics.statisticobserver.StatisticObserver;
 
+/**
+ * Statistics information of a specific metric
+ * 
+ * @author Stefan
+ *
+ */
 public class Statistic {
 
+	/**
+	 * ID of the statistic object
+	 */
 	private Integer id;
 
+	/**
+	 * List of statistic units that was calculated of that metric
+	 * Is created from statisticUnits Map
+	 */
 	private List<StatisticUnit> statistics;
 	
+	/**
+	 * Map of the unit name and value
+	 * Is used to have an O(1) of getting a specific name of the statistics in order
+	 * to calculate and update them 
+	 */
 	@JsonIgnore
 	private Map<String, StatisticUnit> statisticUnits;
 
+	/**
+	 * List of statistic functions that is observing the current metric
+	 */
 	@JsonIgnore
 	private List<StatisticObserver> statisticObservers;
 
+	/**
+	 * Construct the statistic object with a default empty map and list of observer
+	 */
 	public Statistic() {
 		statisticUnits = new HashMap<String, StatisticUnit>();
 		statisticObservers = new ArrayList<StatisticObserver>();

@@ -5,19 +5,43 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Metric object
+ * 
+ * @author Stefan
+ *
+ */
 public class Metric {
 
+	/**
+	 * ID of the metric
+	 */
 	private Integer id;
 
+	/**
+	 * Name of the metric
+	 */
 	private String name;
 
+	/**
+	 * Description of the metric
+	 */
 	private String description;
 
+	/**
+	 * Units in the metric
+	 */
 	private List<MetricUnit> metricUnits;
 
+	/**
+	 * ID of the statistic object relating to the current metric
+	 */
 	@JsonIgnore
 	private Integer statistics;
 
+	/**
+	 * Construct the metric with a default new metric unit list
+	 */
 	public Metric() {
 		this.metricUnits = new ArrayList<MetricUnit>();
 	}

@@ -11,12 +11,27 @@ import com.flexreceipts.metrics.statisticobserver.MeanStatisticObserver;
 import com.flexreceipts.metrics.statisticobserver.MedianStatisticObserver;
 import com.flexreceipts.metrics.statisticobserver.MinStatisticObserver;
 
+/**
+ * Basic service of statistic
+ * 
+ * @author Stefan
+ *
+ */
 @Service
 public class StatisticServiceImpl implements StatisticService {
 
+	/**
+	 * Repository of Statistic
+	 */
 	@Autowired
 	private StatisticRepository statisticRepository;
 
+	/**
+	 * Create a new statistic with basic observers for calculating min, max,
+	 * mean and median
+	 * 
+	 * @return newly created statistic
+	 */
 	@Override
 	public Statistic create() {
 		Statistic statistic = new Statistic();
@@ -31,14 +46,26 @@ public class StatisticServiceImpl implements StatisticService {
 		return statisticRepository.save(statistic);
 	}
 
+	/**
+	 * Find a statistic based on id, return null if not found
+	 * 
+	 * @param statisticId id
+	 * @return requested statistic
+	 */
 	@Override
 	public Statistic findOne(Integer statisticId) {
 		return statisticRepository.findOne(statisticId);
 	}
 
+	/**
+	 * Save a statistic, return null if input has no id
+	 * 
+	 * @param statistic statistic
+	 * @return saved statistic
+	 */
 	@Override
 	public Statistic save(Statistic statistic) {
-		if (statistic.getId() == null || statistic.getId() == 0) {
+		if (statistic == null || statistic.getId() == null || statistic.getId() == 0) {
 			return null;
 		}
 		return statisticRepository.save(statistic);

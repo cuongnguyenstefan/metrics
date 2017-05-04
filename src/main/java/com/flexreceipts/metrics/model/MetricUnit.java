@@ -3,8 +3,19 @@ package com.flexreceipts.metrics.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MetricUnit implements Comparable<MetricUnit> {
+/**
+ * Wrapper class for the value of each unit in metric
+ * Currently include value of the unit
+ * Can be extended to save other information of a unit
+ * 
+ * @author Stefan
+ *
+ */
+public class MetricUnit {
 	
+	/**
+	 * Value of the unit
+	 */
 	private Float value;
 	
 	@JsonCreator
@@ -16,15 +27,5 @@ public class MetricUnit implements Comparable<MetricUnit> {
 		return value;
 	}
 
-	@Override
-	public int compareTo(MetricUnit o) {
-		if (value == o.value) {
-			return 0;
-		} else if (value > o.value) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
 	
 }

@@ -38,10 +38,12 @@ public class MedianStatisticObserver extends StatisticObserver {
 	public MedianStatisticObserver() {
 		this.minHeap = new PriorityQueue<Float>();
 		this.maxHeap = new PriorityQueue<Float>(new FLoatReverseComparator());
+		this.setName(Constant.MEDIAN);
 	}
 
 	/**
 	 * Calculate the median from metric's units and update into Statistic's map
+	 * Has O(nlogn) runtime and O(n) space
 	 * 
 	 * @param statistic statistic object that will be updated
 	 * @param metric include the units that will be check to find median
@@ -49,6 +51,10 @@ public class MedianStatisticObserver extends StatisticObserver {
 	 */
 	@Override
 	public void calculate(Statistic statistic, Metric metric) {
+		if (metric == null || statistic == null || metric.getMetricUnits() == null
+				|| metric.getMetricUnits().isEmpty()) {
+			return;
+		}
 		float currentMedian = 0;
 		for (MetricUnit metricUnit : metric.getMetricUnits()) {
 			currentMedian = updateMedian(currentMedian, metricUnit);

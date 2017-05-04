@@ -1,9 +1,21 @@
 package com.flexreceipts.metrics.model;
 
+/**
+ * Wrapper of statistic unit, contain key-value pair of the statistic
+ * 
+ * @author Stefan
+ *
+ */
 public class StatisticUnit {
 	
+	/**
+	 * Name of the statistic
+	 */
 	private String name;
 	
+	/**
+	 * Value of the statistic
+	 */
 	private Float value;
 
 	public String getName() {
